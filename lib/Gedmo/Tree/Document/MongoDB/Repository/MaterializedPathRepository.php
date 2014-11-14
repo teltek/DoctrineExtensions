@@ -115,12 +115,13 @@ class MaterializedPathRepository extends AbstractTreeRepository
             ->find($meta->name);
         $regex = false;
 
+
         if (is_object($node) && $node instanceof $meta->name) {
             $node = new MongoDocumentWrapper($node, $this->dm);
             $nodePath = preg_quote($node->getPropertyValue($config['path']));
 
             if ($direct) {
-                $regex = sprintf('/^%s([^%s]+%s)'.($includeNode ? '?' : '').'$/',
+                $regex = sprintf(($config['path_ends_with_separator'] ? '/^%s([^%s]+%s)' : '/^%s(%s[^%s]+)').($includeNode ? '?' : '').'$/',
                      $nodePath,
                      $separator,
                      $separator);
@@ -129,7 +130,7 @@ class MaterializedPathRepository extends AbstractTreeRepository
                      $nodePath);
             }
         } elseif ($direct) {
-            $regex = sprintf('/^([^%s]+)'.($includeNode ? '?' : '').'%s$/',
+            $regex = sprintf('/^([^%s]+)'.($includeNode ? '?' : '').($config['path_ends_with_separator'] ? '%s' : '').'$/',
                 $separator,
                 $separator);
         }
