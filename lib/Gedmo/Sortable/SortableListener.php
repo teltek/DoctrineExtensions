@@ -240,7 +240,7 @@ class SortableListener extends MappedEventSubscriber
 
         // Compute position if it is negative
         if ($newPosition < 0) {
-            $newPosition += $this->maxPositions[$hash] + 2; // position == -1 => append at end of list
+            $newPosition += $this->maxPositions[$hash] + 1; // position == -1 => append at end of list
 
             if ($newPosition < 0) {
                 $newPosition = 0;
