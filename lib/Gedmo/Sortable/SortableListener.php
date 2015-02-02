@@ -5,9 +5,9 @@ namespace Gedmo\Sortable;
 use Doctrine\Common\EventArgs;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\UnitOfWork;
+use Doctrine\ODM\MongoDB\UnitOfWork;
 use Gedmo\Mapping\MappedEventSubscriber;
-use Doctrine\ORM\Proxy\Proxy;
+use Doctrine\ODM\MongoDB\Proxy\Proxy;
 use Gedmo\Sortable\Mapping\Event\SortableAdapter;
 
 /**
