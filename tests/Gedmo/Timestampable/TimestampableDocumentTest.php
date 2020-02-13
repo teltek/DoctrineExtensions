@@ -32,11 +32,11 @@ class TimestampableDocumentTest extends BaseTestCaseMongoODM
     public function testTimestampable()
     {
         $repo = $this->dm->getRepository(self::ARTICLE);
-        $article = $repo->findOneByTitle('Timestampable Article');
+        $article = $repo->findOneBy(['title' => 'Timestampable Article']);
 
         $date = new \DateTime();
         $now = time();
-        $created = intval((string) $article->getCreated());
+        $created = $article->getCreated()->getTimestamp();
         $this->assertTrue($created > $now - 5 && $created < $now + 5); // 5 seconds interval if lag
         $this->assertEquals(
             $date->format('Y-m-d H:i'),
@@ -53,7 +53,7 @@ class TimestampableDocumentTest extends BaseTestCaseMongoODM
         $this->dm->flush();
         $this->dm->clear();
 
-        $article = $repo->findOneByTitle('Timestampable Article');
+        $article = $repo->findOneBy(['title' => 'Timestampable Article']);
         $date = new \DateTime();
         $this->assertEquals(
             $date->format('Y-m-d H:i'),
@@ -74,10 +74,10 @@ class TimestampableDocumentTest extends BaseTestCaseMongoODM
         $this->dm->clear();
 
         $repo = $this->dm->getRepository(self::ARTICLE);
-        $sport = $repo->findOneByTitle('sport forced');
+        $sport = $repo->findOneBy(['title' => 'sport forced']);
         $this->assertEquals(
             $created,
-            (string) $sport->getCreated()
+            $sport->getCreated()->getTimestamp()
         );
         $this->assertEquals(
             '2000-01-01 12:00:00',
@@ -95,7 +95,7 @@ class TimestampableDocumentTest extends BaseTestCaseMongoODM
         $this->dm->flush();
         $this->dm->clear();
 
-        $sport = $repo->findOneByTitle('sport forced');
+        $sport = $repo->findOneBy(['title' => 'sport forced']);
         $this->assertEquals(
             '2000-01-01 12:00:00',
             $sport->getPublished()->format('Y-m-d H:i:s')
@@ -108,7 +108,7 @@ class TimestampableDocumentTest extends BaseTestCaseMongoODM
     public function shouldHandleOnChangeWithBooleanValue()
     {
         $repo = $this->dm->getRepository(self::ARTICLE);
-        $article = $repo->findOneByTitle('Timestampable Article');
+        $article = $repo->findOneBy(['title' => 'Timestampable Article']);
 
         $this->assertNull($article->getReady());
 

@@ -76,7 +76,7 @@ class SortableDocumentGroupTest extends BaseTestCaseMongoODM
         $repo = $this->dm->getRepository(self::KID);
 
         for ($i = 0; $i < 2; $i++) {
-            $kids = $repo->findByPosition($i);
+            $kids = $repo->findBy(['position' => $i]);
             $this->assertCount(2, $kids);
         }
     }
@@ -88,13 +88,13 @@ class SortableDocumentGroupTest extends BaseTestCaseMongoODM
     {
         $repo = $this->dm->getRepository(self::KID);
 
-        $kid = $repo->findOneByLastname('kid2');
+        $kid = $repo->findOneBy(['lastname' => 'kid2']);
         $this->assertInstanceOf(self::KID, $kid);
 
         $kid->setPosition(0);
         $this->dm->flush();
 
-        $kids = $repo->findByBirthdate(new \DateTime(self::KID_DATE1));
+        $kids = $repo->findBy(['birthdate' => new \DateTime(self::KID_DATE1)]);
         $this->assertCount(2, $kids);
 
         for ($i=0; $i < 2; $i++) {
@@ -111,7 +111,7 @@ class SortableDocumentGroupTest extends BaseTestCaseMongoODM
         $repo = $this->dm->getRepository(self::POST);
 
         for ($i = 0; $i < 3; $i++) {
-            $posts = $repo->findByPosition($i);
+            $posts = $repo->findBy(['position' => $i]);
             $this->assertCount(2, $posts);
         }
     }
@@ -124,7 +124,7 @@ class SortableDocumentGroupTest extends BaseTestCaseMongoODM
         $repo_category = $this->dm->getRepository(self::CATEGORY);
         $repo_post = $this->dm->getRepository(self::POST);
 
-        $category = $repo_category->findOneByName('category1');
+        $category = $repo_category->findOneBy(['name' => 'category1']);
         $this->assertInstanceOf(self::CATEGORY, $category);
 
         $post = $repo_post->findOneBy(array(
@@ -156,7 +156,7 @@ class SortableDocumentGroupTest extends BaseTestCaseMongoODM
         $repo_category = $this->dm->getRepository(self::CATEGORY);
         $repo_post = $this->dm->getRepository(self::POST);
 
-        $category = $repo_category->findOneByName('category1');
+        $category = $repo_category->findOneBy(['name' => 'category1']);
         $this->assertInstanceOf(self::CATEGORY, $category);
 
         $post = $repo_post->findOneBy(array(
